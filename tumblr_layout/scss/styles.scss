@@ -1,0 +1,34 @@
+$item-size: 210px;
+$col-gutter: 10px;
+$vp-gutter: $col-gutter;
+$max-cols: 5;
+$scrollbar-size: 20px;
+
+@function grid-width($num-cols) {
+  @return $num-cols * $item-size + ($num-cols - 1) * $col-gutter;
+}
+
+.grid {
+  display: grid;
+  grid-gap: $col-gutter;
+  padding: 0 $vp-gutter;
+  grid-template-columns: repeat(auto-fill, $item-size);
+  max-width: grid-width($max-cols);
+  justify-content: center;
+  margin: 40px auto;
+  grid-auto-rows: $item-size;
+}
+
+
+@mixin when-n-cols($n) {
+  @media screen and (min-width: #{grid-width($n) + 2 * $vp-gutter + $scrollbar-size}) {
+    @content;
+  }
+}
+@include when-n-cols(2) {
+  .grid .header {
+    grid-row: span 2;
+    grid-column: span 2;
+  }
+}
+
